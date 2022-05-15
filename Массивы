@@ -1,0 +1,19 @@
+//3 способа объявления массива
+let array1 = Array<Int>()
+let array2 = [Int]()
+var array3: [Int] = []
+
+let array4 = [1, 2, 3, 4]
+var array5 = [Int] (repeating: 10, count: 5)
+
+array3 += array4
+array3
+array4[3]
+
+array5[1...3] = [5]
+array5.append(60)
+array5.insert(5, at: 3)
+array5.remove(at: 4)
+array5.removeFirst()
+array5.removeLast()
+array5.reverse()
