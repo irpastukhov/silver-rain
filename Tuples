@@ -1,0 +1,46 @@
+//Кортежи (tuples) - не коллекция, а группа данных. Они предназначены для конкретных краткосрочной целей, а не для хранения данных
+
+let tuple1 = (483, "abc", true, 8.5)
+let (number, letters, check, decimal) = tuple1
+tuple1.2
+let (_, alphabet, _, _) = tuple1
+alphabet
+
+let tuple2 = (index: 665, registered: true, length: 2.7, phrase: "privet")
+tuple2.phrase
+let phrase = tuple2.phrase
+
+//Можно присваивать значение, если одинаковые типы и названия (если есть)
+let a = (greetings: "hello", number: 1423)
+var b = (greetings: "hola", number: 8765)
+b = a
+
+//Кортежи удобно использовать при выводе в консоль для группирования значений
+let x = 65
+let name = "george"
+print((x, name))
+
+
+//ДЗ Создать два кортежа с физическими данными и сравнить их
+
+let myStrength = (pushUps: 70, sitUps: 100, pullUps: 5)
+//Два варианат вывода: через параметр и через индекс
+print("Push ups - \(myStrength.pushUps), sit ups - \(myStrength.sitUps), pull ups - \(myStrength.pullUps)")
+print("My results: Push ups - \(myStrength.0), sit ups - \(myStrength.1), pull ups - \(myStrength.2)")
+
+let friendStrength = (pushUps: 69, sitUps: 99, pullUps: 6)
+print("Friend's results: Push ups - \(friendStrength.0), sit ups - \(friendStrength.1), pull ups - \(friendStrength.2)")
+
+
+if myStrength.0 > friendStrength.0 {
+    print("Я отжимаюсь больше на \(myStrength.0 - friendStrength.0), чем друг")
+} else if friendStrength.0 > myStrength.0 {
+    print("Друг отжимается больше на \(friendStrength.0 - myStrength.0), чем я")
+}
+
+let words = ["отжимаюсь", "приседаю", "подтягиваюсь"]
+
+var i = 0
+for i in 0...2 {
+    print("Я \(words[i]) больше на \(myStrength.0 - friendStrength.0), чем друг")
+}
