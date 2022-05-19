@@ -20,6 +20,17 @@ let x = 65
 let name = "george"
 print((x, name))
 
+//Использование кортежа в функции, где надо в массиве найти наибольшее значение
+let people = ["vany": 20, "sasha": 30, "nika": 21]
+var age = 0
+var name = ""
+for (nameInD, ageInD) in people {
+    if age < ageInD {
+        age = ageInD
+        name = nameInD
+    }
+}
+
 
 //ДЗ Создать два кортежа с физическими данными и сравнить их
 
