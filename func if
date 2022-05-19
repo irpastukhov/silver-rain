@@ -1,0 +1,24 @@
+let a = 76
+let b = 32
+
+if a < b {
+    print("b over \(b - a)")
+          } else if a > b {
+        print("a over \(a - b)")
+    }
+
+let isSunny = true
+//Простая запись if с буллевым выражением
+var action = isSunny ? "I'll go out" : "I'll stay home"
+//~= - оператор, который узнаёт, принадлежит ли значение некому диапазону
+if 1...1024 ~= a {
+    print("a is less than 1024")
+}
+
+let c = 24
+//Составное условие с "и" (&&) и "или" (||)
+if a == 70 && b == 32 || c == 24 {
+    print("Ok")
+} else {
+    print("Not ok")
+}
