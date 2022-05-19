@@ -1,0 +1,18 @@
+//Сет - неупорядоченная коллекция с уникальными значениями
+let set1 = Set<String>()
+let set2: Set<String> = []
+var set3: Set = [1, 2, 3, 4]
+set3.insert(5)
+set3.contains(4)
+
+let setFromOneToThree: Set = [1, 2, 3]
+let setFromFourToSix: Set = [1, 4, 5, 6]
+
+//Сложение сетов
+let combinedSetsArray = setFromOneToThree.union(setFromFourToSix).sorted()
+//Нахождение общих значений между сетами
+let commonValuesBetweenSets = setFromOneToThree.intersection(setFromFourToSix)
+//Различные значения между сетами
+let differentValuesArray = setFromOneToThree.symmetricDifference(setFromFourToSix).sorted()
+//Значения из первого сета, которые не повторяются во втором
+let substractedValues = setFromOneToThree.subtracting(setFromFourToSix).sorted()
