@@ -1,0 +1,22 @@
+for i in 1...5 {
+    print(i)
+}
+
+let numbers = [1, 2, 3, 4]
+for i in numbers {
+    print(i)
+}
+
+//Как распечатать словарь
+let namesAndFingers = ["Vanya": 20, "Dima": 10, "Valentina": 15]
+for (name, fingers) in namesAndFingers {
+    print("Name - \(name), fingers - \(fingers) ")
+}
+
+for (index, value) in numbers.enumerated() {
+    print(index, value)
+}
+
+for i in stride(from: 0, to: 10, by: 2) {
+    print (i)
+}
