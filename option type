@@ -1,0 +1,53 @@
+//nil - это опицональное значение, который необходим в случае, когда значения может не быть
+
+var apples : Int? = 5
+
+if apples == nil {
+    //print("there are no apple")
+} else {
+    //print(apples!)
+}
+
+//Force unwrapping (!) - принудительное развёртывание, извлечение значения из опционала
+let moreApples = apples! + 3
+
+//Optional binding или implicit unwrapping (неявное развёртывание) - проверка, содержит ли опционал значение, и, если содержит, извлечь его и предоставить с помощью локальной переменной (обычно константы)
+var oranges: Int? = 8
+
+if var _ = oranges {
+    _ = oranges!
+} else {
+    //print("nil oranges")
+}
+
+//Функция. Если в строке есть интеджер, он распаковывается
+let text = "1234"
+
+
+
+if Int(text) != nil {
+    let _ = Int(text)
+}
+
+//Int! - тип неявно равзёрнутого опционального значения. Необходим, если сначала значения равно nil, но затем меняется
+var apples2 : Int! = nil
+apples2 = 2
+apples2 = apples2 + 2
+
+
+//ДЗ. Пять констант со строками с цифровыми значениями или буквами. Найти сумму, приведя их к интеджеру
+
+let a = "7"; let b = "786"; let c = "34"; let d = "aa1"; let e = "1"
+
+var abcde = [a, b, c, d, e]
+
+var abcdeInt: [Int] = []
+
+for i in 0...4 {
+    if Int(abcde[i]) != nil {
+        let o = Int(abcde[i])!
+        abcdeInt.append(o)
+        let sum = abcdeInt.reduce(0, +)
+        print(sum)
+    }
+}
