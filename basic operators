@@ -1,0 +1,63 @@
+let text = "123"
+let n = Int(text)
+
+if n != nil {
+    c = n!
+} else {
+    c = 0
+}
+
+var c = 0
+c = Int(text) ?? 0
+
+var value = true
+value = !value
+
+//&& = *, || = +
+/*
+ true && true = true
+true && false = false
+false && false = false
+
+true || true = true
+true || false = true
+false || false = false
+*/
+
+
+//ДЗ. Посчитать, сколько секунд с начала года проходит до дня рождения. Посчитать в каком квартале день рождения
+
+let seconds = 60 * 60 * 24 * (6 * 30 + 3 * 31 + 3)
+seconds
+let secondsYear = 60 * 60 * 24 * 365
+if seconds < (secondsYear / 4) {
+    print("1 quarter")
+} else if seconds < (secondsYear / 2) {
+    print("2 quarter")
+} else if seconds < (secondsYear / 4 * 3) {
+    print("3 quarter")
+} else if seconds > (secondsYear / 4 * 3) {
+    print("4 quarter")
+}
+
+//Есть шахматная доска. Для обоих параметров цифровые обозначения (8 и 8). Надо создать функцию, определяющую, белое поле или чёрное
+
+var lett: Int
+var num: Int
+
+lett = 1
+num = 1
+
+if lett % 2 != 0 && num % 2 == 0 || lett % 2 == 0 && num % 2 != 0 {
+    print("white")
+} else {
+    print("black")
+}
+//Упрощённая версия
+var lett2 = 5
+var num2 = 3
+if lett2 % 2 == num2 % 2 {
+    print("black")
+} else {
+    print("white")
+}
