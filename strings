@@ -1,0 +1,51 @@
+var str = "hihihi"
+str += "hi"
+str.isEmpty
+str.count
+
+for h in "hello world" {
+    print(h)
+}
+
+var str1 = "a"
+var char: Character = "b"
+//Метод append может переводить символ в строку и добавлять её в другую строку
+str1.append(char)
+
+let heart = "\u{1F496}"
+
+var fun: Character = "ы"
+fun = "ы\u{301}\u{20dd}"
+let funString = "What is this? -> \(fun)"
+
+funString.hasPrefix("What")
+funString.hasPrefix("what")
+
+
+//ДЗ. Как в задании по опциональному типу (пять констант со строками с цифровыми значениями или буквами. Найти сумму, приведя их к интеджеру). То же самое, но через оператор ??. Создать строку с сложением этих значений
+
+let strings = ("16", "38", "hj4", "22", "90a")
+
+var number1 = Int(strings.0) ?? 0
+var number2 = Int(strings.1) ?? 0
+var number3 = Int(strings.2) ?? 0
+var number4 = Int(strings.3) ?? 0
+var number5 = Int(strings.4) ?? 0
+var sum = number1 + number2 + number4
+let sumNumbers = "\(number1) + \(number2) + \(number3) + \(number4) + \(number5) = 76"
+let sumNumbers2 = number1 + number2 + number3 + number4 + number5
+
+
+//Задача. Функция, которая находит символ в строке и показывает его индекс
+let abc = "abcdefgh"
+var h: Character = "h"
+abc.count
+var i = 0
+var index = 1
+for i in abc {
+    if i == h {
+        print("i - \(index)")
+    } else {
+        index = index + 1
+    }
+}
