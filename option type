@@ -43,7 +43,7 @@ var abcde = [a, b, c, d, e]
 
 var abcdeInt: [Int] = []
 
-for i in 0...4 {
+for i in 0..<abcde.count {
     if Int(abcde[i]) != nil {
         let o = Int(abcde[i])!
         abcdeInt.append(o)
