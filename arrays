@@ -8,7 +8,8 @@ let array4 = [1, 2, 3, 4]
 var array5 = [Int] (repeating: 10, count: 5)
 
 array3 += array4
-array3
+array3 += [5]
+array3.append(6)
 array4[3]
 
 array5[1...3] = [5]
@@ -18,3 +19,74 @@ array5.remove(at: 4)
 array5.removeFirst()
 array5.removeLast()
 array5.reverse()
+
+//3 способа подсчёта значений в массиве
+var sum = 0
+let zxc = [5, 8, 987]
+for (index, value) in zxc.enumerated() {
+    print("index - \(index), value - \(value)")
+    sum += value
+}
+print (sum)
+
+var sum2 = 0
+let zxc2 = [5, 8, 987]
+for value in zxc2 {
+    sum2 += value
+}
+print(sum2)
+
+zxc.reduce(0, +)
+
+
+//Задача. Перевести массив символов в массив строк
+let abcCharacters: [Character] = ["a", "b", "c"]
+var abcStrings: [String] = []
+var o: String
+for i in 0..<abcCharacters.count {
+    let o = String(abcCharacters[i])
+    abcStrings.insert(o, at: 0)
+}
+abcStrings
+ 
+//Задача. Написать функцию, которая выводит месяцы и дни из двух массивов
+let daysOfMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+print(daysOfMonths, "\n")
+
+
+let months = ["january", "february", "march", "april", "may", "june", "jule", "august", "september", "october", "november", "december"]
+
+
+for i in 0..<months.count {
+    print("\(months[i]) - \(daysOfMonths[i])")
+}
+
+
+//Функция, создающая массив из кортежей
+var arrayOfTuples = [(String, Int)] ()
+for i in 0..<daysOfMonths.count {
+    let month = (month:months[i], day:daysOfMonths[i])
+    arrayOfTuples.append(month)
+}
+print(arrayOfTuples)
+
+
+// 2 способа найти сумму значений в массиве опционального интеджера
+let numbersNilArray: [Int?] = [1, nil, 76, 5678, nil]
+var sumOfNumbers = 0
+for i in numbersNilArray {
+    if i != nil {
+        sumOfNumbers += (i)!
+    }
+}
+sumOfNumbers
+
+let numbersNilArray2: [Int?] = [1, nil, 76, 5678, nil]
+var sumOfNumbers2 = 0
+for i in numbersNilArray2 {
+    if let i = i {
+        sumOfNumbers2 += i
+    }
+}
+sumOfNumbers2
