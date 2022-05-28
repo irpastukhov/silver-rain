@@ -4,6 +4,10 @@ var countriesPopulation = ["russia": 145, "usa": 330, "china": 1_450]
 countriesPopulation.updateValue(135, forKey: "russia")
 countriesPopulation ["india"] = 1_400
 
+for (country, population) in countriesPopulation {
+    print("A population of \(country) is \(population) million people")
+}
+
 var countries = Array(countriesPopulation.keys) // Массив из ключей
 var population = Array(countriesPopulation.values) // Массив из значений
 
