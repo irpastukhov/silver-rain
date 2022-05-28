@@ -1,0 +1,97 @@
+// Словарь (dictionary) - неупорядоченная типизированная коллекция
+
+var countriesPopulation = ["russia": 145, "usa": 330, "china": 1_450]
+countriesPopulation.updateValue(135, forKey: "russia")
+countriesPopulation ["india"] = 1_400
+
+var countries = Array(countriesPopulation.keys) // Массив из ключей
+var population = Array(countriesPopulation.values) // Массив из значений
+
+
+
+//Задача. Создать словарь со студентами и их оценками. Поменять их оценки, добавить студента, удалить студента. Узнать сумму оценок и их среднее арифметическое
+var students = ["vanya": 5, "rita": 4, "misha": 4, "syoma": 3, "matvey": 5]
+students.updateValue(4, forKey: "syoma")
+students ["petya"] = 4
+students.removeValue(forKey: "misha")
+
+// 1 способ найти сумму
+students.values.reduce(0, +)
+
+//Второй
+var sum = 0
+for i in students.values {
+    sum += i
+}
+sum
+
+//Среднее арифметическое
+let sum2: Float = Float(sum) / Float(students.values.count)
+
+
+//Задача. Вывести словарь с месяцами и днями.
+
+let days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+let months = ["january", "february", "march", "april", "may", "june", "jule", "august", "september", "october", "november", "december"]
+
+var monthsAndDays = [String: Int] () //Создам пустой словарь
+//Функция, которая добавляет в словарь значения двух массивов
+for i in 0..<months.count {
+    monthsAndDays [months[i]] = days[i]
+}
+//Первый способ вывода, через кортеж
+for (key, value) in monthsAndDays {
+    print("\(key) - \(value)" )
+}
+print()
+//Второй способ, через массив
+for key in monthsAndDays.keys {
+    print("\(key) - \(monthsAndDays[key]!)")
+}
+
+
+//Задача. Создать словарь со всеми полями шахматной доски, где ключ - название поля, а значение - true (белый) или false (чёрный)
+
+let lettChess = ["A", "B", "C", "D", "E", "F", "G", "H"]
+var dictChess = [String: Bool] ()
+
+for i in 0..<lettChess.count {
+    for j in 1...lettChess.count {
+        dictChess[lettChess[i]+String(j)] = (i+1) % 2 != j % 2
+    }
+}
+print(dictChess)
+ 
+
+
+///Решение из комментов
+//let simbBox = ["a", "b", "c", "d", "e", "f", "g", "h"]
+//var chessDesk = [String:Bool]()
+//
+//for i in 0..<simbBox.count {
+//    for j in 1...simbBox.count {
+//        chessDesk[simbBox[i]+String(j)] = (i+1) % 2 != j % 2
+//    }
+//}
+//print(chessDesk)
+
+///Решение из комментов
+//var chess: [String : Bool] = [:]
+//let chessAbc = ["a","b","c","d","e","f","g","h"]
+//let chessNumb = [1,2,3,4,5,6,7,8]
+//var stringKey = ""
+//
+//    for char in chessAbc.enumerated() {
+//        for number in chessNumb.enumerated() {
+//            stringKey = char.element + String(number.element)
+//
+//            if (char.offset + 1) % 2 == (number.offset + 1) % 2 {
+//                chess[stringKey] = false
+//            } else {
+//                chess[stringKey] = true
+//            }
+//        }
+//    }
+//
+//
+//print(chess)
