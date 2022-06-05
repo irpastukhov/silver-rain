@@ -1,0 +1,141 @@
+//Инструкция switch
+
+let age = 20
+
+if age == 10 {
+    print("you're bad")
+} else if age == 20 {
+    print("you're good")
+} else if age == 100 {
+    print("you're great")
+}
+
+switch age {
+case 10:
+    print("you're bad")
+case 20:
+    print("you're good")
+case 100:
+    print("you're great")
+default:
+    break
+}
+
+switch age {
+case 10:
+    fallthrough //Переход на следующее условие
+case 20...40, 80:
+    print("you're good")
+case 100:
+    print("you're great")
+default:
+    break //break - выход из цикла
+}
+
+mainLoop: for _ in 0...1000 {
+    for i in 0...20 {
+        if i == 10 {
+            break mainLoop
+        }
+        print(i)
+    }
+}
+
+var name = "varya"
+
+switch name {
+case "varya" where age <= 25:
+    print("hi, \(name)!")
+case "varya" where age > 25:
+    print("hello, \(name)")
+default:
+    break
+}
+
+switch (name, age) {
+case (_, let number) where number <= 30 || number >= 50: //Value binding
+    print("ooo")
+case ("varya", 20):
+    print("aaa")
+default:
+    break
+}
+
+let point = (5, 5)
+switch point {
+case let (x, y) where x == y:
+    print("x == y")
+case let (x, y) where x == -y:
+    print("x == -y")
+default:
+    break
+}
+
+let array: [CustomStringConvertible] = [5, "ah", Float(6.78)] //CustomStringConvertible позволяет хранить в массиве значения разного типа
+
+switch array[2] {
+case _ as Int:
+    print("Int")
+case _ as Double:
+    print("Double")
+case _ as Float:
+    print("Float")
+default:
+    print("error")
+}
+
+
+
+
+
+//ДЗ. Создать строку в 200 символов и, используя switch внутри цикла, подсчитать количество гласных, согласных цифр и символов
+
+let text2h = "Чёткие, стройные ритмы сопровождаются мелодичными синтами, которые, затем могут смениться кислотным глитчем. Хитросплетённые тексты, идущие пулемётным речитативом, кажутся необъятным потоком сознания."
+var vowels = 0, consonants = 0, punctuationMarks = 0
+
+for i in text2h {
+    switch i {
+    case "а", "я", "у", "ю", "о", "е", "ё", "э", "и", "ы":
+        vowels += 1
+    case  "б", "в", "г", "д", "ж", "з", "й", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "Х", "х", "ц", "Ч", "ч", "ш", "щ":
+        consonants += 1
+    case ",", ".":
+        punctuationMarks += 1
+    default:
+        break
+    }
+}
+
+print("В тексте есть гласные - \(vowels), согласные - \(consonants) и знаки препинания - \(punctuationMarks)")
+print()
+
+//Задача. 3 строки с  ФИО студента. Если имя начинается с "а" или "о", то к нему надо обращатьс по имени. Если отчество начинается с "б" или "д", то по имени и отчеству. Если фамилия - с "е" или "з", то только по фамилии. В противном случае - по полному ФИО.
+
+let surnameStud = "Быкова"
+let nameStud = "Варвара"
+let patronymicStud = "Владимировна"
+
+
+switch (surnameStud, nameStud, patronymicStud) {
+case (_, let n, _) where n.hasPrefix("А") || n.hasPrefix("О"):
+    print(nameStud)
+case (_, _, let p) where p.hasPrefix("Б") || p.hasPrefix("Д"):
+    print(nameStud, patronymicStud)
+case (let s, _, _) where s.hasPrefix("Е") || s.hasPrefix("З"):
+    print(surnameStud)
+default:
+    print(surnameStud, nameStud, patronymicStud)
+}
+
+//Задача. Морской бой. Свитч должен выводить
+
+let move = (3, 5)
+
+switch move {
+case (3...4, 6):
+    print("убил")
+case (5, 3):
+    print("ранил")
+default:
+    print("мимо")
+}
