@@ -1,0 +1,234 @@
+//Функция, ничего не принимающая и ничего не возвращающая
+
+func sayHello() {
+    print("ugabuga")
+}
+sayHello()
+
+//Функция, принимающая один параметр. Прибавляет единицу
+func oneParam(param: Int) {
+    var param = param
+    param += 1
+}
+
+oneParam(param: 10)
+
+
+//Функция, не принимающая параметров, но возвращающая значение
+func returnValue() -> Int {
+    return 10
+}
+returnValue()
+
+
+//Функция, принимающая несколько параметров и возвращающая значение. Самая распространённая
+func giveMeYour(name: String, andSecondName: String) -> String {
+    return "your full name is \(name) \(andSecondName)"
+}
+giveMeYour(name: "zhora", andSecondName: "pikalyov")
+
+
+//Функция, принимающая массив в качестве параметра и использующая вложенную функцию для работы. Складывает числа и печатает сумму
+func calcMoney(array: [Int]) -> Int {
+    var sum = 0
+    func sayMoney() {
+        print(sum)
+    }
+    for item in array {
+        sum += item
+    }
+    sayMoney()
+    return sum
+}
+
+calcMoney(array: [1, 234])
+
+
+//Функция, которая принимает переменное число параметров
+func findSum(ofIntegers integers: Int...) -> Int {
+    var sum = 0
+    for item in integers {
+        sum += item
+    }
+    return sum
+}
+
+//Функция в качестве возвращаемого значения
+func whatToDo(missed: Bool) -> ((Int) -> Int) {
+    func missCountUp(input: Int) -> Int { return input + 1 }
+    func missCountDown(input: Int) -> Int { return input - 1 }
+    return missed ? missCountUp : missCountDown
+}
+
+
+//Можно пропускать имена параметров функции
+func sum(_: Int) -> Int {
+    return 10
+}
+
+sum(20)
+
+
+
+
+
+
+
+
+
+
+
+let wallet = [5, 10, 100, 2, 50, 1, 1, 50, 20, 10, 20, 20]
+
+func moneyCalculator(inArray: [Int], withDenomination wDen: Int) -> (total: Int, count: Int) {
+    var sum = 0
+    var count = 0
+    for i in wallet {
+        if i == wDen {
+            sum += i
+            count += 1
+        }
+    }
+    return (sum, count)
+}
+moneyCalculator(inArray: wallet, withDenomination: 20).count
+ 
+
+func sayHi() {
+    "hi"
+}
+let hi: () = sayHi()
+
+
+
+
+
+
+
+
+
+
+//ДЗ. Написать функцию, выводящую смайлик
+func heart() {
+    print("\u{1F497}")
+}
+
+func heart2() {
+    print("\u{1F496}")
+}
+
+func heart3() {
+    print("\u{1F498}")
+}
+print(heart(), heart2(), heart3())
+
+
+//Задача. Функция которая принимает два параметра - строку и символ шахматной клетки - и выводит белая или чёрная эта клетка
+
+func chessFunction(letter: String, number: Int) -> String {
+    var chessField: String
+    if number % 2 == 0 && (letter == "A" || letter == "C" || letter == "E" || letter == "G") {
+        print("White")
+        chessField = "White"
+    } else if number % 2 != 0 && (letter == "B" || letter == "D" || letter == "F" || letter == "H") {
+        print("White")
+        chessField = "White"
+    } else {
+        print("Black")
+        chessField = "Black"
+    }
+    return chessField
+}
+
+chessFunction(letter: "B", number: 2)
+
+let chessFieldA2 = chessFunction(letter: "A", number: 2)
+
+
+//Задача. Функция, которая принимает массив и выдаёт его в обратном порядке
+
+var arrayToFlip = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+func flip(array: [Int]) -> [Int] {
+    var arrayReverse = array
+    arrayReverse.reverse()
+    return arrayReverse
+}
+
+flip(array: arrayToFlip)
+arrayToFlip
+
+//Задача. То же самое только с изменением массива
+
+func flip2(array: inout [Int]) {
+    array.reverse()
+}
+
+flip2(array: &arrayToFlip)
+arrayToFlip
+
+
+//Задача. Функция, принимающая строку и возвращающая её без знаков препинания, гласные переведены в заглавные
+
+
+var textToTrash = "Смертная казнь - это дискуссионная тема, которая из года в год, особенно по случаю громких преступлений, выявляет множество, как сторонников, так и противников высшей меры наказания. Несмотря на то, что в большинстве стран, учитывая политически и социально слабо развитые, эта мера наказания отменена, она сохранена в США, а, согласно данным опроса фонда «Общественное мнение» 2019 года, 69% россиян считают правильным лишение жизни за некоторые преступления (педофилия, убийство, терроризм) (https://ria.ru/20191101/1560486013.html)."
+
+//Функция, которая заменяет символ
+func letterReplacer(text: inout String, number: Int, character: Character) -> String {
+    text.remove(at: text.index(text.startIndex, offsetBy: number))
+    text.insert(character, at: text.index(text.startIndex, offsetBy: number))
+    return text
+}
+
+
+func perversionText(text: inout String) -> String {
+    var index = -1
+    for i in text {
+        index += 1
+        switch i {
+    case ".", ",", "-", "%", "(", ")", ":", ";", "/", "«", "»":
+        letterReplacer(text: &text, number: index, character: " ")
+    case "а":
+        letterReplacer(text: &text, number: index, character: "А")
+    case "я":
+        letterReplacer(text: &text, number: index, character: "Я")
+    case "у":
+        letterReplacer(text: &text, number: index, character: "У")
+    case "ю":
+        letterReplacer(text: &text, number: index, character: "Ю")
+    case "о":
+        letterReplacer(text: &text, number: index, character: "О")
+    case "е":
+        letterReplacer(text: &text, number: index, character: "Е")
+    case "ё":
+        letterReplacer(text: &text, number: index, character: "Ё")
+    case "э":
+        letterReplacer(text: &text, number: index, character: "Э")
+    case "и":
+        letterReplacer(text: &text, number: index, character: "И")
+    case "ы":
+        letterReplacer(text: &text, number: index, character: "Ы")
+    default: break
+        }
+    }
+    print(text)
+    return text
+}
+
+perversionText(text: &textToTrash)
+
+
+
+
+var text2h = "Чёткие, стройные ритмы сопровождаются мелодичными синтами, которые, затем могут смениться кислотным глитчем. Хитросплетённые тексты, идущие пулемётным речитативом, кажутся необъятным потоком сознания."
+
+text2h[text2h.startIndex]
+text2h[text2h.index(before: text2h.endIndex)]
+text2h[text2h.index(after: text2h.startIndex)]
+let index = text2h.index(text2h.startIndex, offsetBy: 1)
+text2h[index]
+text2h.index(text2h.startIndex, offsetBy: 0)
+text2h[text2h.index(text2h.startIndex, offsetBy: 0)]
+
+text2h.remove(at: text2h.index(text2h.startIndex, offsetBy: 0))
+text2h.insert("Ч", at: text2h.index(text2h.startIndex, offsetBy: 0))
