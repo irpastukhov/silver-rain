@@ -1,0 +1,138 @@
+import Foundation
+let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+func filterArray(array: [Int], f: (Int) -> Bool) -> [Int] {
+    var filtered = [Int] ()
+    for i in array {
+        if f(i) {
+            filtered.append(i)
+        }
+    }
+    return filtered
+}
+
+func compare(_ i: Int) -> Bool {
+    return i % 2 == 0
+}
+filterArray(array: numbers, f: compare(_:))
+
+// MARK: inline function
+filterArray(array: numbers, f: {(i: Int) -> Bool in //Встроенная (inline) функция
+    return i % 2 == 1
+})
+
+filterArray(array: numbers, f: {(i: Int) -> Bool in
+    return i < 10
+})
+
+filterArray(array: numbers, f: {i in //Более простая запись
+    return i % 3 == 0
+})
+
+let a =
+filterArray(array: numbers, f: {i in i % 3 == 1}) //Возможна ещё более простая запись, если функция записывается в одну строку
+
+let a2 =
+filterArray(array: numbers, f: {$0 % 5 == 0}) //Shorthand функция. Ещё проще. $0 - запись первого аргумента
+
+let a3 =
+filterArray(array: numbers) {$0 % 5 == 0} //Возможна такая запись, если замыкание находится в конце
+
+
+let numbers2 = [2, 32, 20, 7, 17, 34]
+//Функция, находящая общие значения двух массивов
+var count = 0
+let a4 =
+filterArray(array: numbers) { value in
+    for include in numbers2 {
+        count += 1
+        if include == value {
+            return true
+        }
+    }
+    return false
+}
+count
+
+var names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+
+var reversedNames =
+names.sorted(by: {s1, s2 in return s1 < s2}) //Функция сортирует массив, но не меняет его
+names
+names.sort(by: <) //Функция сортирует и меняет массив
+names
+
+
+//ДЗ. Функция которая принимает только пустое замыкание, ничего не возвращает. В тело функции добавить цикл, выводящий числа 0-10. После выхода из цикла надо вызвать замыкание с принтом
+
+func justNumbers(i:() -> ()) {
+    i()
+    for i in 1...10 {
+    print(i)
+    }
+}
+
+justNumbers {
+    print("start")
+}
+
+
+//Задача. Создать массив интеджеров. Функцией отсортировать его по возрастанию и убыванию
+
+let arrayForSorting = [345, 23, 7564, 33, 34, 1, 73, 99, 2345, 978, 46, 132, 98, 73, 98246]
+
+let sortedArray = arrayForSorting.sorted {(n1: Int, n2: Int) -> Bool in
+    return n1 < n2
+}
+sortedArray
+
+
+//Задача. Функция, которая принимает массив интов и замыкание, а возвращает инт. Клоужер принимает два инта, один из них опциональный, а озвращает булево значение. В функции надо создать опциональную переменную и цикл, который сравнивает переменную с массивом. Bспользуя этот метод и этот клоужер найти максимальный и минимальный элементы массива.
+
+func comparer(arr: [Int], clos: (Int, Int?) -> Bool) -> Int? {
+    var result : Int?
+    
+    for value in arr {
+        if clos(value, result) {
+            result = value
+        }
+    }
+    
+    return result
+}
+
+let minElement = comparer(arr: arrayForSorting) { (a, b) -> Bool in
+    if let minValue = b {
+        return a < minValue
+    }
+    return true
+}
+
+if minElement != nil {
+    print("min value - \(minElement!)")
+}
+
+
+let maxElement = comparer(arr: arrayForSorting) { (a, b) -> Bool in
+    if let maxValue = b {
+        return a > maxValue
+    }
+    return true
+}
+
+if maxElement != nil {
+    print("max value - \(maxElement!)")
+}
+
+
+
+let stringAbc = "I thought, the bag is yours. I wanted to prank you and put a fake mouse inside."
+
+var stringAbcArray = [Character]()
+
+for i in stringAbc {
+    stringAbcArray.append(i)
+}
+stringAbcArray
+
+
