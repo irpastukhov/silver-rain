@@ -1,0 +1,196 @@
+enum Movement: Int {
+    case Forward = 10
+    case Backward = -10
+    case Right = 15
+    case Left = 30
+}
+
+Movement.Forward.rawValue
+
+enum Device {
+    case IPhone, IPad
+
+
+    var year: Int {
+        switch self {
+        case .IPhone: return 2007
+        case .IPad: return 2010
+        }
+    }
+}
+
+let iphoneYear = Device.IPhone.year
+
+indirect enum Lunch { //Рекурсивные перечисления
+    case Salad
+    case Soup
+    case Meal(Lunch, Lunch)
+}
+let myLunch = Lunch.Meal(.Salad, .Soup)
+
+enum Drink: CaseIterable {
+   case coffee, tea, juice
+}
+let numberOfChoices = Drink.allCases.count
+print("\(numberOfChoices) drinks available")
+
+for i in Drink.allCases {
+    print(i)
+}
+
+enum Numbers: Int { //Когда используются инт в качестве исходного значения, неявное значение для каждого кейса будет на единицу больше, чем в предыдущем. Если первый кейс не имеет заданного значения, он равен 0.
+    case One = 1487, Two, Three
+}
+Numbers.Two.rawValue
+
+
+
+
+
+ 
+enum Direction {
+    case Left
+    case Right
+}
+
+enum Action {
+    case Walk(meters: Int)
+    case Run(meters: Int, speed: Double)
+    case Stop
+    case Turn(direction: Direction)
+    
+    enum Direction {
+        case Left
+        case Right
+    }
+}
+
+var action = Action.Run(meters: 20, speed: 10.5)
+action = .Stop
+action = .Walk(meters: 100)
+action = .Turn(direction: .Left)
+
+switch action {
+case .Stop:
+    print("Stop")
+case .Walk(let m) where m < 100:
+    print("\(m) meters is a short walk")
+case .Walk(let m) where m >= 100:
+    print("\(m) meters is a long walk")
+case .Run(let m, let s):
+    print("Run \(m) meters with speed \(s) meters per second")
+case .Turn(let dir) where dir == .Left:
+    print("Turn left")
+default:
+    break
+}
+
+
+
+//ДЗ. Создать несколько энумов (перечисления) с шахматными фигурами с ассоциативными значениями цвета и положения по горизонтали и вертикали. Задать такие значения, чтобы чёрным был мат
+
+enum Chess {
+    case King(color: Color, letter: Letter, number: Int)
+    case Knight(color: Color, letter: Letter, number: Int)
+    case Bishop(color: Color, letter: Letter, number: Int)
+    case Pawn(color: Color, letter: Letter, number: Int)
+    enum Color: String {
+        case White = "White"
+        case Black = "Black"
+    }
+    enum Letter: String {
+        case a = "a"
+        case b = "b"
+        case c = "c"
+        case d = "d"
+        case e = "e"
+        case f = "f"
+        case g = "g"
+        case h = "h"
+    }
+   
+}
+
+var kingBlack = Chess.King(color: .Black, letter: .a, number: 8)
+var pawnBlack = Chess.Pawn(color: .Black, letter: .a, number: 7)
+var knightBlack = Chess.Knight(color: .Black, letter: .a, number: 6)
+var bishopBlack = Chess.Bishop(color: .Black, letter: .d, number: 7)
+
+var pawnWhite = Chess.Pawn(color: .White, letter: .b, number: 7)
+var kingWhite = Chess.King(color: .White, letter: .c, number: 3)
+var knightWhite = Chess.Knight(color: .White, letter: .d, number: 8)
+var bishopWhite = Chess.Bishop(color: .White, letter: .h, number: 2)
+
+
+//З. Положить фигуры в массив. Создать функцию, которая принимает фигуру и печатает её данные и функцию, которая вызывает первую
+
+let chessFigures = [kingBlack, pawnBlack, knightBlack, bishopBlack, pawnWhite, kingWhite, knightWhite, bishopWhite]
+
+func chessFunc(figure: Chess) {
+    switch figure {
+    case let .King(color, letter, number):
+        print("\(color) king on \(letter)\(number)")
+    case let .Bishop(color, letter, number):
+        print("\(color) bishop on \(letter)\(number)")
+    case let .Knight(color, letter, number):
+        print("\(color) knight on \(letter)\(number)")
+    case let .Pawn(color, letter, number):
+        print("\(color) pawn on \(letter)\(number)")
+    }
+}
+
+chessFunc(figure: kingBlack)
+print("")
+
+func chessFuncArray(arr: [Chess]) {
+    for i in arr {
+        chessFunc(figure: i)
+    }
+}
+
+chessFuncArray(arr: chessFigures)
+
+
+//З. Распечатать шахматную доску с фигурами, используя юникод
+
+let lettChess = ["a", "b", "c", "d", "e", "e", "g", "h"]
+var arrChess = [String] ()
+
+for i in 0..<lettChess.count {
+    for j in 1...lettChess.count {
+        arrChess.append(lettChess[i]+String(j))
+    }
+}
+print(arrChess)
+
+
+//for i in 1...arrChess.count {
+//    if i % 2 != 0 && (i ~= 16...24) {
+//        print("\u{25A0}", terminator:"")
+//    } else if i % 2 == 0 {
+//        print("\u{25A1}", terminator:"")
+//    }
+//    if i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56{
+//        print("")
+//    }
+//}
+
+
+
+
+//func chessFunction(arr: [String]) -> String {
+//    var chessField: String
+//    for i in arr {
+//        if Int(i.last!) % 2 == 0 && (i.hasPrefix("a") || i.hasPrefix("c") || i.hasPrefix("e") || i.hasPrefix("g")) {
+//        print("White")
+//        chessField = "White"
+//    } else if number % 2 != 0 && (i.hasPrefix == "b" || i.hasPrefix == "d" || i.hasPrefix == "f" || i.hasPrefix == "h") {
+//        print("White")
+//        chessField = "White"
+//    } else {
+//        print("Black")
+//        chessField = "Black"
+//    }
+//    return chessField
+//    }
+//}
