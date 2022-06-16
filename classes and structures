@@ -1,0 +1,123 @@
+import Foundation
+class StudentClass1 {
+    var name  = "no name"
+    var age = 20
+}
+
+let student = StudentClass()
+student.age
+student.name = "styopa"
+
+//Конструктор
+class StudentClass {
+    var name: String
+    var age: Int
+    init() {
+        name  = "no name"
+        age = 20
+    }
+    init(name: String, age: Int) {
+        self.name = name //Self указывает на текущий экземпляр
+        self.age = age
+    }
+}
+let student1 = StudentClass()
+let student2 = StudentClass(name: "vanya", age: 15) //Если у класса параметры заданы переменной, то у константы экземпляра класса можно менять значение
+
+//Класс - это reference type (ссылочный тип)
+var studClass3 = student2
+studClass3.age = 20
+student2.age
+
+
+struct StudentStruct {
+    var name: String
+    var age: Int
+}
+
+var studentStruct1 = StudentStruct(name: "eva", age: 33) //Структура, в отличие от класса, по умолчанию выводит параметры. Также, константа экземпляра структуры не может менять значение
+
+func addOneYearClass(studClass: StudentClass) {
+    studClass.age += 1
+}
+addOneYearClass(studClass: studClass3)
+studClass3.age
+//Экзмепляр структуры через функцию можно изменить только через inout
+func addOneYearStruct(studStruct: inout StudentStruct) {
+    studStruct.age += 1
+}
+addOneYearStruct(studStruct: &studentStruct1)
+
+//Когда много данных, лучше использовать классы, когда мало - структуры
+
+
+
+//ДЗ. 1. Создать структуру для нескольких студентов с именем, фамилией, годом рождения и средним баллом. Написать функцию, которая выводит данные студентов и их порядковый номер
+
+struct HWStudStruct {
+    var name: String
+    var surname: String
+    var dob: String
+    var gpa: Double
+}
+
+let studMisha = HWStudStruct(name: "misha", surname: "kazaryan", dob: "08.09.2003", gpa: 4.4)
+let studPolina = HWStudStruct(name: "polina", surname: "fedortsova", dob: "11.02.2002", gpa: 4.1)
+let studVanya = HWStudStruct(name: "vanya", surname: "pastukhov", dob: "04.10.2001", gpa: 5)
+let studDasha = HWStudStruct(name: "dasha", surname: "pletyushkina", dob: "08.05.2002", gpa: 4.64)
+let studProkhor = HWStudStruct(name: "prokhor", surname: "kopylov", dob: "15.07.1999", gpa: 4.77)
+let studVeronika = HWStudStruct(name: "veronika", surname: "fedortsova", dob: "01.04.2001", gpa: 4.0)
+
+var studArr = [studMisha, studPolina, studVanya, studDasha, studProkhor, studVeronika]
+
+func printStud(arr: [HWStudStruct]) {
+    var number = 0
+    for student in arr {
+        number += 1
+        print("студент \(student.surname) \(student.name) под номером \(number) даты рождения \(student.dob) имеет средний балл \(student.gpa)")
+    }
+}
+
+printStud(arr: studArr)
+
+//2. Отсортировать с помощью sorted by оценки в массиве по убыванию и распечатать это
+print("")
+studArr.sort { (st1, st2) in
+    (st1.gpa > st2.gpa)
+}
+
+printStud(arr: studArr)
+
+//3. Отсортировать по возрастанию фамилий. Если фамилии одинаковые, то сортировать по имени
+print("")
+studArr.sort { (st1, st2) in
+    st1.surname == st2.surname ? st1.name < st2.name : st1.surname < st2.surname
+}
+
+printStud(arr: studArr)
+
+//4. Сделать то же самое с классом
+
+class HWStudClass {
+    var name: String
+    var surname: String
+    var dob: String
+    var gpa: Double
+    init(name: String, surname: String, dob: String, gpa: Double) {
+        self.name = name
+        self.surname = surname
+        self.dob = dob
+        self.gpa = gpa
+    }
+}
+
+let hwStudLyonya = HWStudClass(name: "lyonya", surname: "malaev", dob: "03.09.2001", gpa: 4.79)
+let hwStudDasha = HWStudClass(name: "dasha", surname: "pletyushkina", dob: "08.05.2002", gpa: 4.44)
+let hwStudProkhor = HWStudClass(name: "prokhor", surname: "kopylov", dob: "15.07.1999", gpa: 4.15)
+let hwStudDima = HWStudClass(name: "dima", surname: "lolaev", dob: "01.05.2000", gpa: 3.94)
+
+let hwStudArr = [hwStudLyonya, hwStudDasha, hwStudProkhor, hwStudDima]
+
+let hwStudArr2 = hwStudArr
+hwStudArr2[0].gpa = 4.69
+hwStudArr[0].gpa
