@@ -1,0 +1,141 @@
+import Foundation
+
+struct Student {
+    var firstName: String {
+        willSet(newFirstName) {
+            print("will set \(newFirstName) instead of \(firstName)")
+        }
+        didSet(oldFirstName) {
+            print("did set \(firstName) instead of \(oldFirstName)")
+            firstName = firstName.capitalized //Capitalized из obj-c
+        }
+    }
+    var lastName: String {
+        didSet {
+            lastName = lastName.capitalized
+        }
+    }
+    var fullName: String {
+        get { //Если используется один getter, как здесь, то можно убрать get
+            return firstName + " " + lastName
+        }
+        set {
+            print("full name wants to be set to " + newValue) //New value - дефолтное название переменной
+            let words = newValue.components(separatedBy: " ") //Это ключевое слово тоже из obj-c
+            if words.count > 0 {
+                firstName = words[0]
+            }
+            if words.count > 1 {
+                lastName = words[1]
+            }
+        }
+    }
+}
+var student = Student(firstName: "kirill", lastName: "feygin")
+student.firstName = "kirya"
+student.firstName
+student.lastName = "dutov"
+student.lastName
+student.fullName = "sTEPAN"
+student.fullName
+
+
+
+//ДЗ. Повторить. Добавить внутрь структуру принимающую дату рождению и с помощью property считающую возраст
+
+struct HWStudent {
+    var name: String {
+        didSet(oldName) {
+            print("did set \(name) instead of \(oldName)")
+            name = name.capitalized
+        }
+    }
+    var surname: String {
+        didSet(oldSurname) {
+            print("did set \(surname) instead of \(oldSurname)")
+            surname = surname.capitalized
+        }
+    }
+    var fullname: String {
+        get {
+            return name + " " + surname
+        }
+        set {
+            print("full name wants to be set to " + newValue)
+            let words = newValue.components(separatedBy: " ")
+            if words.count > 0 {
+                name = words[0]
+            }
+            if words.count > 1 {
+                surname = words[1]
+            }
+            
+        }
+    }
+    var dob: Dob
+        struct Dob {
+            var day: Int
+            var month: Int
+            var year: Int
+            }
+    var age: Int {
+        get {
+            return dob.month > 6 && dob.day > 17 ? 2022 - dob.year : 2021 - dob.year
+//            if dob.month > 6 && dob.day > 17 {
+//            return 2022 - dob.year
+//            } else {
+//                return 2021 - dob.year
+//            }
+        }
+    }
+    var graduation: Int {
+        get {
+            return age > 17 ? age - 17 : 0
+        }
+    }
+}
+
+//age > 17 ? return age - 17 : return 0
+var hwStudent = HWStudent(name: "herbie", surname: "hancock", dob: HWStudent.Dob(day: 10, month: 9, year: 1940))
+hwStudent.dob
+hwStudent.name = "roy"
+hwStudent.surname = "ayers"
+hwStudent.name
+hwStudent.age
+hwStudent.graduation
+
+
+//З. Создать структуру отрезок со структурой stored properties - point (точками a и b) - внутри и двумя computer properties - meet point (точка между двумя другими, посчитать функцией) и длина отрезка. Затем изменить митпоинт, чтобы он принимая значения, менял поинт. Также сделать так, чтобы с изменением длины менялась расположение точки b
+
+struct Segment {
+    var point: Point
+    struct Point {
+        var a: Int
+        var b: Int
+    }
+    var meetPoint: Int {
+        get {
+            return (point.a + point.b) / 2
+        }
+        set {
+            let diff = meetPoint > newValue ? meetPoint - newValue : newValue - meetPoint
+            (point.a, point.b) = meetPoint > newValue ? (point.a - diff, point.b - diff) : (point.a + diff, point.b + diff)
+        }
+    }
+    var length: Int {
+        get {
+            return point.a >= point.b ? point.a - point.b : point.b - point.a
+        }
+        set {
+            let diff = length > newValue ? length - newValue : newValue - length
+            point.b = length > newValue ? point.b - diff : point.b + diff
+        }
+    }
+}
+
+var exampleSegment = Segment(point: Segment.Point(a: 17, b: 99))
+exampleSegment.meetPoint
+exampleSegment.length
+exampleSegment.meetPoint = 60
+exampleSegment.length = 85
+exampleSegment.point
