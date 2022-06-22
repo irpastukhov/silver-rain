@@ -16,7 +16,7 @@ struct Student {
         }
     }
     var fullName: String {
-        get { //Если используется один getter, как здесь, то можно убрать get
+        get { //Если бы использовался только getter, то можно было бы убрать get и скобки
             return firstName + " " + lastName
         }
         set {
@@ -95,7 +95,6 @@ struct HWStudent {
     }
 }
 
-//age > 17 ? return age - 17 : return 0
 var hwStudent = HWStudent(name: "herbie", surname: "hancock", dob: HWStudent.Dob(day: 10, month: 9, year: 1940))
 hwStudent.dob
 hwStudent.name = "roy"
@@ -124,7 +123,7 @@ struct Segment {
     }
     var length: Int {
         get {
-            return point.a >= point.b ? point.a - point.b : point.b - point.a
+            return point.a > point.b ? point.a - point.b : point.b - point.a
         }
         set {
             let diff = length > newValue ? length - newValue : newValue - length
@@ -139,3 +138,148 @@ exampleSegment.length
 exampleSegment.meetPoint = 60
 exampleSegment.length = 85
 exampleSegment.point
+print("")
+
+
+
+
+
+//Свойства типов
+
+let MaxLengthName = 20 //Глобальная переменная, исползуемая в разных структурах
+
+class Human {
+    var name: String
+    static let maxAge = 100
+    var age: Int {
+        didSet {
+            if age > Human.maxAge {
+                age = oldValue
+            }
+        }
+    }
+    lazy var lifeStory = "This is the story of my whole life..." //Ленивое свойство добавляется только когда его вызывают, его не нужно добавлять в конструктор и оно всегда переменная
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+}
+
+
+struct Cat {
+    var nick: String {
+        didSet {
+            if nick.count > MaxLengthName {
+                nick = oldValue
+            }
+        }
+    }
+    static let maxAge = 30
+    static var totalCats = 0
+    var age: Int {
+        didSet {
+            if age > Cat.maxAge {
+                age = oldValue
+            }
+        }
+    }
+    init(nick: String, age: Int) {
+        self.nick = nick
+        self.age = age
+        Cat.totalCats += 1
+    }
+}
+
+let man = Human(name: "Peter", age: 72)
+man.age = 172
+man.age
+
+ 
+var kitten = Cat(nick: "Tale", age: 8)
+kitten.age = 40
+kitten.age
+Cat.totalCats
+kitten.nick = "klsjfdghdskljgsjkdgfh"
+kitten.nick
+
+enum Direction {
+    static let enumDescription = "Directions in the game"
+    case Left, Right, Top, Bottom
+    var isVerical: Bool {
+        return self == .Top || self == .Bottom
+    }
+    var isHorizontal: Bool {
+        return !isVerical
+    }
+}
+
+let direction = Direction.Right
+direction.isVerical
+direction.isHorizontal
+
+
+//ДЗ. 1. Создать структуру "описание файла" со свойствами путь к файлу, его имя, максимальный размер, путь к папке с этим файлом, тип (скрытый или нет) и содержимое (просто строка)
+
+struct File {
+    var name: String
+    lazy var filePath = "Print the path here"
+    static let maxSize = 512
+    var folderPath: String
+    let type: enumType.RawValue
+    enum enumType: String {
+        case hidden = "Hidden", unhidden = "Unhidden"
+    }
+    var content: String
+}
+
+var file = File(name: "Poster", folderPath: "Downloads", type: "Unhidden", content: "Picture")
+File.maxSize
+
+
+//2. Перечисление типа инт с разными цветами, которые имеют трёхбайтные значения. Задать три свойста типа: количество цветов, начальный цвет и конечный
+
+enum Colors: Int {
+    case Terracota = 0xCC4E5C
+    case Turquoise = 0x30D5C8
+    case Ivory = 0xFFFFF0
+    case Anthracite = 0x44464C
+    var colorsNumber: Int {
+        return 4
+    }
+}
+
+
+//3. Класс "человек". Свойства имя, фамилия, рост, вес, возраст, максимальный возраст. Также свойство, хранящее число свойств
+
+class HWHuman {
+    var name: String
+    var surname: String
+    var height: Int
+    static let maxWeight = 200
+    var weight: Int {
+        didSet {
+            if weight > HWHuman.maxWeight {
+                weight = oldValue
+            }
+        }
+    }
+    static let maxAge = 100
+    var age: Int {
+        didSet {
+            if age > HWHuman.maxAge {
+                age = oldValue
+            }
+        }
+    }
+    init(name: String, surname: String, height: Int, weight: Int, age: Int) {
+        self.name = name
+        self.surname = surname
+        self.height = height
+        self.weight = weight
+        self.age = age
+    }
+}
+
+var hw1Human = HWHuman(name: "David", surname: "Lynch", height: 180, weight: 78, age: 76)
+hw1Human.weight = 378
+hw1Human.weight
