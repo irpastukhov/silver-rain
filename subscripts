@@ -1,0 +1,143 @@
+let arr = ["a", "b", "c"]
+
+struct Family {
+    var father = "Father"
+    var mother = "Mother"
+    var kids = ["kidA", "kidB", "kidC"]
+    
+    var count: Int {
+            return 2 + kids.count
+    }
+    subscript(index: Int) -> String? {
+        get {
+            switch(index) {
+            case 0:
+                return father
+            case 1:
+                return mother
+            case 2..<(2 + kids.count):
+                return kids[index - 2]
+            default: return nil
+            }
+        }
+        set {
+            let value = newValue ?? ""
+            
+            switch(index) {
+            case 0:
+                 father = value
+            case 1:
+                 mother = value
+            case 2..<(2 + kids.count):
+                 kids[index - 2] = value
+            default: break
+            }
+        }
+    }
+    subscript(index: Int, suffix: String) -> String? {
+        var name = self[index] ?? ""
+        name += " " + suffix
+        return name
+    }
+}
+
+var family = Family()
+family.father
+family.count
+
+family[4]
+family.kids[0]
+family[2, "by Radiohead"]
+
+
+struct Field {
+    var dict = [String: String] ()
+    
+    func key(column: String, row: Int) -> String {
+        return column + String(row)
+    }
+    
+    subscript(column: String, row: Int) -> String? {
+        get {
+            return dict[key(column: column, row: row)]
+        }
+        set {
+            dict[key(column: column, row: row)] = newValue
+        }
+    }
+}
+
+
+var field = Field()
+field["a", 5]
+field["a", 5] = "x"
+
+
+/* ДЗ. Игра на выбор:
+1. Тип "шахматная доска", которая по сабскрипту отвечает, белое поле или чёрное. Нужен только геттер. Если выбирается поле за диапазоном, возвращается nil
+2. Крестики-нолики. Энум "пусто", "крестик" или "нолик". Каждая ячейка может содержать только одно значение. Более сложный уровень, если программа будет определять победителя
+3. Морской бой. Начать с одномерного корабля. Должно определяться, убит корабль или нет
+*/
+
+//1.
+struct Chess {
+    
+    enum Colors {
+        case White, Black
+    }
+    
+    static func makeChessDict() -> [String: Colors] {
+        
+        let chessLetters = ["a", "b", "c", "d", "e", "f", "g", "h"]
+        var chessDict = [String: Colors]()
+        
+        for i in 0..<chessLetters.count {
+            for j in 1...chessLetters.count {
+                chessDict[chessLetters[i]+String(j)] = ((i+1) % 2 != j % 2) ? Colors.White : Colors.Black
+            }
+        }
+        return chessDict
+    }
+    static let chessDict = Chess.makeChessDict()
+    
+    subscript(key: String) -> Colors? {
+        return Chess.chessDict[key]
+    }
+}
+var qwe = Chess()
+qwe["a2"]
+qwe["f0"]
+
+
+//2.
+struct TicTacToe {
+    
+    enum moves: String {
+        case empty = "\u{2610}"
+        case cross = "\u{2715}"
+        case zero = "\u{25CB}"
+    }
+    
+    static let field = (x: 3, y: 3)
+    struct Field {
+        let x: Int
+        let y: Int
+    }
+    
+//    subscript(x: Int, y: Int) -> moves? {
+//        
+//    }
+    
+    func startTheGame() {
+        for i in 1...TicTacToe.field.x {
+            for j in 1...TicTacToe.field.y {
+                print(moves.empty.rawValue, terminator: " ")
+            }
+            print("")
+        }
+        print("")
+    }
+    
+}
+
+var game = TicTacToe()
