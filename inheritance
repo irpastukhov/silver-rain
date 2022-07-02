@@ -1,0 +1,197 @@
+class Human {
+    var firstName: String = ""
+    final var lastName: String = "" //Final не позволяет переопределить параметр
+    var fullName: String {
+        return firstName + " " + lastName
+    }
+    func sayHello() -> String {
+        return "Hello, \(fullName)"
+    }
+}
+var human = Human()
+human.firstName = "Jim"
+human.lastName = "Jarmusch"
+human.sayHello()
+
+class Student: Human { //Классы могут наследовать другие классы
+    var favouriteSubject: String = ""
+    override func sayHello() -> String { //Override позволяет переопределить параметры класса-наследователя
+        return super.sayHello() + ", my friend" //Super обращается к параметру класса-родителя
+    }
+    override var firstName: String {
+        set {
+            super.firstName = "dear " + newValue
+        }
+        get {
+            return super.firstName
+        }
+    }
+}
+var student = Student()
+student.firstName = "Peter"
+student.lastName = "Greenaway"
+student.sayHello()
+
+let arr = [human, student]
+
+for value in arr {
+    print(value.sayHello())
+}
+
+
+
+//ДЗ. 1. Создать класс "артист" с методом, выводящим профессию артиста
+
+print("""
+
+HOMEWORK
+
+""")
+
+class Artist {
+    var name: String
+    var surname: String
+    func representation() -> String {
+        return (name + " " + surname + " is a")
+    }
+    init(name: String, surname: String) {
+        self.name = name
+        self.surname = surname
+    }
+}
+
+class Actor: Artist {
+    override func representation() -> String {
+        return super.representation() + "n actor"
+    }
+}
+var hwActor = Actor(name: "Willem", surname: "Dafoe")
+
+class Singer: Artist {
+    override func representation() -> String {
+        return super.representation() + " singer"
+    }
+}
+var hwSinger = Singer(name: "Demis", surname: "Roussos")
+
+class Painter: Artist {
+    override var name: String {
+        set {
+            super.name = newValue + "ionych"
+        }
+        get {
+            return super.name
+        }
+    }
+    override func representation() -> String {
+        return super.representation() + " painter"
+    }
+}
+
+var hwPainter = Painter(name: "William", surname: "Blake")
+hwPainter.name = "William"
+
+
+var hwArr = [hwActor, hwSinger, hwPainter]
+for i in hwArr {
+    print(i.representation())
+}
+
+
+//2. Класс "транспортное средство" с тремя параметрами: скорость, вместимость и стоимость перевозки. Создать дочерние классы "самолёт", "корабль", "поезд". Метод, который считает, за какое время средство может перевезти из пунка А в пункт Б 1000 человек.
+print("")
+
+import Foundation
+class Vehicle {
+    var speed: Float
+    var capacity: Float
+    var cost: Float
+    func counter() -> String {
+        let times = 1000 / capacity < 1 ? 1 : 1000 / capacity
+        let hours = 3000 / speed * times
+        let money = cost * times * 1000
+        return " can transport 1000 people over a distance of 3000 km in about \(Int(round(times))) time(s) in \(Int(round(hours))) hours of pure time and it will cost \(Int(money)) $."
+    }
+    init(speed: Float, capacity: Float, cost: Float) {
+        self.speed = speed
+        self.capacity = capacity
+        self.cost = cost
+    }
+}
+
+class Plane: Vehicle {
+    override func counter() -> String {
+        return "A plane" + super.counter()
+    }
+}
+let hw2Plane = Plane(speed: 750, capacity: 300, cost: 350)
+
+class Train: Vehicle {
+    override func counter() -> String {
+        return "A train" + super.counter()
+    }
+}
+let hw2Train = Train(speed: 140, capacity: 2070, cost: 115)
+
+class Ship: Vehicle {
+    override func counter() -> String {
+        return "A ship" + super.counter()
+    }
+}
+let hw2Ship = Ship(speed: 37, capacity: 5000, cost: 140)
+
+
+let hw2Arr = [hw2Plane, hw2Train, hw2Ship]
+for i in hw2Arr {
+    print(i.counter())
+}
+
+
+//3. 5 классов: люди, обезьяны, собаки, жирафы и крокодилы. Надо создать для них родительский класс. Посчитать, сколько четвероногих, сколько пресмыкающихся
+
+class Animals {
+
+}
+let donkey = Animals()
+
+class Quadrupeds: Animals {
+    
+}
+
+class Human2 {
+    
+}
+let ballerina = Human2()
+
+class Monkey {
+    
+}
+let gorilla = Monkey()
+
+class Dog: Quadrupeds {
+    
+}
+let mastiff = Dog()
+
+class Giraffe: Quadrupeds {
+    
+}
+let southernGiraffe = Giraffe()
+
+class Reptiles: Quadrupeds {
+    
+}
+
+class Crocodile: Reptiles {
+    
+}
+let saltwaterCrocodile = Crocodile()
+
+var hw3ArrRept = [Reptiles]()
+var hw3ArrQuad = [Quadrupeds]()
+hw3ArrRept = [saltwaterCrocodile]
+for i in hw3ArrRept {
+    print("\(i) is a reptile")
+}
+
+hw3ArrQuad = [mastiff, southernGiraffe, saltwaterCrocodile]
