@@ -1,0 +1,187 @@
+class Student1 {
+    var firstName = ""
+    var lastName = ""
+    var middleName: String? //Опциональный параметр не обязательно инициализировать. В дочерних класса нельзя переопределять константы
+    let maxAge: Int //Константу можно задать уже в инициализаторе
+    var fullName: String {
+        return firstName + " " + lastName
+    }
+    init(maxAge: Int) {
+        self.maxAge = maxAge
+    }
+}
+ 
+var s1 = Student1(maxAge: 99)
+
+
+class Human {
+    var age: Int
+    var weight: Int
+    init(age: Int, weight: Int) { //Такой, уже знакомый, инициализатор называется назначенным (designated)
+        self.age = age
+        self.weight = weight
+    }
+    convenience init(age: Int) { //Это вспомогательный (convenience) инициализатор, который позволяет выборочно добавлять значения экземплярам
+        self.init(age: age, weight: 0)
+    }
+    convenience init(weight: Int) {
+        self.init(age: 0, weight: weight)
+    }
+    convenience init() {
+        self.init(age: 0)
+    }
+    func test(){}
+    
+    deinit {
+        print("Human deinitialized")
+    }
+}
+let h1 = Human()
+let h2 = Human(weight: 70)
+let h3 = Human(age: 30, weight: 75)
+
+class Student2: Human {
+    var firstName: String
+    var lastName: String
+    
+    init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+        super.init(age: 0, weight: 0) //Параметра родительского класса вызываются только после дочернего
+        self.weight = 80
+    }
+    
+    override convenience init(age: Int, weight: Int) {
+        self.init(firstName: "")
+        self.age = age
+        self.weight = weight
+    }
+    
+    convenience init(firstName: String) {
+        self.init(firstName: firstName, lastName: "")
+        self.age = 28
+        test()
+    }
+}
+
+let s2 = Student2(firstName: "Bob")
+
+
+//2 часть
+
+class Doctor: Student2 {
+    var fieldOfStudy = ""
+    convenience init(fieldOfStudy: String) {
+        self.init(firstName: "Doctor", lastName: "Strange")
+        self.fieldOfStudy = fieldOfStudy
+    }
+    override init(firstName: String, lastName: String) {
+        self.fieldOfStudy = "Medicine"
+        super.init(firstName: firstName, lastName: lastName )
+    }
+    convenience init(firstName: String) {
+        self.init(fieldOfStudy: "")
+        self.age = 38
+        self.firstName = firstName
+    }
+}
+
+var doc = Doctor(firstName: "Doctor")
+doc.lastName = "Strange"
+ 
+
+
+//3 часть
+
+enum Color: Int {
+    case Black, White
+    
+    init?(_ value: Int) {
+        switch value {
+        case 0:
+            self = .Black
+        case 1:
+            self = .White
+        default:
+            return nil
+        }
+    }
+}
+
+let col1 = Color(1)
+col1?.rawValue
+col1!.rawValue
+
+
+struct Size {
+    var width: Int
+    var height: Int
+    init?(width: Int, height: Int) {
+        self.width = width
+        self.height = height
+        if (width, height) < (0, 0) {
+            return nil
+        }
+    }
+}
+
+let size1 = Size(width: -1, height: 2)
+
+import Foundation
+class Friend: Human {
+    var name: String
+    let skin: Color
+    
+    init?(name: String) {
+        self.name = name
+        let random = Int(arc4random_uniform(2))
+        let color = Color(random)!
+        self.skin = color
+        super.init(age: 0, weight: 0)
+        if name.isEmpty {
+            return nil
+        }
+    }
+    
+    init() {
+        self.name = "unknown"
+        let random = Int(arc4random_uniform(2))
+        let color = Color(random)!
+        self.skin = color
+        super.init(age: 0, weight: 0)
+    }
+    
+    deinit {
+        print("Friend deinitialized")
+    }
+}
+
+let friend1 = Friend(name: "a")
+
+
+class BestFriend: Friend {
+    override init(name: String) {
+        if name.isEmpty {
+            super.init()
+        } else {
+            super.init(name: name)!
+        }
+    }
+    deinit {
+        print("Best friend deinitialized")
+    }
+}
+
+let bestFriend1 = BestFriend(name: "")
+
+
+struct Test {
+    var bestFriend: BestFriend? = BestFriend(name: "")
+}
+
+var test: Test? = Test()
+test!.bestFriend = nil; print("")
+
+var test2 = Friend(name: "")
+
+
