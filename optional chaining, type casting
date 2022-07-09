@@ -1,0 +1,211 @@
+class Address {
+    var street = "Tverskaya"
+    var number = "1"
+    var city = "Moscow"
+    var country = "Russia"
+}
+
+struct Garage {
+    var size = 2
+}
+
+class House {
+    var rooms = 1
+    var adress = Address()
+    var garage: Garage? = Garage()
+}
+
+class Car {
+    var model = "Niva"
+    func start() {}
+}
+
+class Human {
+    var cars: [Car]? = [Car()]
+    var house: House? = House()
+}
+
+let p = Human()
+p.cars!
+p.house!.garage!.size
+
+if let house = p.house {
+    if let garage = house.garage {
+        garage.size
+    }
+}
+
+p.house?.garage?.size
+
+if (p.house?.garage?.size = 3) != nil {
+    print("Value updated")
+} else {
+    print("Error")
+}
+
+if let size = p.house?.garage?.size {
+    size
+}
+
+if p.cars?[0].start() != nil {
+    print("Start")
+} else {
+    print("Error")
+}
+
+
+
+
+
+class Symbol {
+    
+}
+
+class A: Symbol {
+    func aa(){}
+}
+
+class B: Symbol {
+    func bb(){}
+}
+
+let array: [Any] = [A(), B(), Symbol(), A(), A(), "a", {()->() in return}]
+
+var aCount = 0
+var bCount = 0
+var sCount = 0
+
+for value in array {
+    if value is A {
+        aCount += 1
+    } else if value is B {
+        bCount += 1
+    } else /*if value is Symbol*/ {
+        sCount += 1
+    }
+    if let a = value as? A {
+        a.aa()
+    } else if let b = value as? B {
+        b.bb()
+    }
+}
+aCount
+bCount
+sCount
+
+
+
+//ДЗ. Класс человек с опциональными свойствами папа, мама, братья, сёстры. Сделать 20 человек, взять одного и установить ему папу и маму, которым тоже установить родственников и так далее. Посчитать разных родственников произвольного человека при помощи optional chaining. Добавить классы женщины и мужчины для родственников. Мужчинам добавить метод "двигать диван", женщинам "попросить подвинуть диван". Добавить всех родственников в один массив и посчитать женщин и мужчин  и для каждого вызвать метод. Добавить человеку свойство "животное". Пройтись по массиву и добавить животных в отдельный массив
+
+print("""
+
+Homework
+
+""")
+
+class Person {
+    
+    let name: String
+    var mother: Woman?
+    var father: Man?
+    var sisters: [Woman]?
+    var brothers: [Man]?
+    var children: [Person]?
+    var pets: [String]?
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+
+class Woman: Person {
+    func request() -> String {
+        let request = "Move the sofa, please"
+        return request
+    }
+}
+
+class Man: Person {
+    func action() -> String {
+        let action = "I'll move the sofa"
+        return action
+    }
+}
+
+
+var ivan = Man(name: "Ivan")
+var roman = Man(name: "Roman")
+var gulshat = Woman(name: "Gulshat")
+var darya = Woman(name: "Darya")
+var robert = Man(name: "Robert")
+var abrizya = Woman(name: "Abrizya")
+var foat = Man(name: "Foat")
+var valentina = Woman(name: "Valentina")
+var nikolay = Man(name: "Nikolay")
+var azat = Man(name: "Azat")
+var ilkham = Man(name: "Ilkham")
+var ilshat = Man(name: "Ilshat")
+var raykhan = Woman(name: "Raykhan")
+var sonya = Woman(name: "Sonya")
+var ruslan = Man(name: "Ruslan")
+var alina = Woman(name: "Alina")
+var maxim = Man(name: "Maxim")
+
+ivan.mother = gulshat
+ivan.father = roman
+ivan.brothers = [robert]
+ivan.sisters = [darya]
+gulshat.mother = abrizya
+gulshat.brothers = [azat, ilkham, ilshat]
+gulshat.sisters = [raykhan]
+roman.mother = valentina
+roman.father = nikolay
+abrizya.children = [azat, ilshat, ilkham, raykhan, gulshat]
+foat.children = abrizya.children
+ilshat.children = [alina, maxim, ruslan]
+raykhan.children = [sonya]
+ivan.mother?.mother?.children?[1].children?[0]
+
+ivan.mother!.brothers
+
+if ivan.mother?.brothers != nil {
+        print("Ivan has \(ivan.mother!.brothers!.count) uncles")
+}
+print("")
+
+let familyArr = [ivan, roman, gulshat, darya, robert, abrizya, foat, valentina, nikolay, azat, ilshat, ilkham, raykhan, sonya, ruslan, alina, maxim]
+familyArr[0]
+var manCount = 0
+var womanCount = 0
+for i in familyArr {
+    if i is Man {
+       manCount += 1
+    } else if i is Woman {
+        womanCount += 1
+    }
+    if let j = i as? Man {
+        print("\(j.name) says: \"\(j.action())\"")
+    } else if let j = i as? Woman {
+        print("\(j.name) says: \"\(j.request())\"")
+    }
+}
+print("")
+print("There are", manCount, "men and", womanCount, "women")
+print("")
+
+ivan.pets = ["cat"]
+abrizya.pets = ["cow", "hens", "cat"]
+azat.pets = ["cat"]
+darya.pets = ["dog"]
+
+var petsArr = [String]()
+for i in familyArr {
+    if i.pets != nil {
+        petsArr += i.pets!
+    }
+}
+print("There are \(petsArr.count) pets in my family")
+
+
+
+
