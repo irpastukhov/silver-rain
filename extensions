@@ -1,0 +1,170 @@
+extension Int {
+    var isEven: Bool {
+        return self % 2 == 0
+    }
+    var isOdd: Bool {
+        return !isEven
+    }
+    enum EvenOrOdd {
+        case Even, Odd
+    }
+    var evenOrOdd: EvenOrOdd {
+        return isEven ? .Even : .Odd
+    }
+    
+    func pow(value: Int) -> Int {
+        var temp = self
+        for _ in 1..<value {
+            temp *= self
+        }
+        return temp
+    }
+    mutating func powTo(value: Int) {
+        self = pow(value: value)
+    }
+    var binaryString: String {
+        var result = ""
+        for i in 0..<8 {
+            result = String(self & (1 << i) > 0) + result
+        }
+        return result
+    }
+    
+}
+
+extension String {
+    init(_ value: Bool) {
+        self.init(value ? 1 : 0)
+    }
+    
+    subscript(start: Int, length: Int) -> String {
+        let start = self.index(self.startIndex, offsetBy: start)
+        let end = self.index(self.startIndex, offsetBy: length)
+        return String(self[start...end])
+    }
+}
+
+//extension Int.EvenOrOdd {
+//    var string: String {
+//        switch self {
+//        case .Even:
+//            return "even"
+//        case .Odd:
+//            return "odd"
+//        }
+//    }
+//}
+
+var a = 2
+
+if a.isOdd {
+    print("a is odd")
+}
+
+a.evenOrOdd
+
+a.pow(value: 3)
+
+a.powTo(value: 3)
+a
+
+a.binaryString
+
+
+
+let s = "Hello, world!"
+let start = s.startIndex
+let end = s.index(s.startIndex, offsetBy: 5)
+let hello = s[start..<end]
+
+//let hello2 = s[0, 5]
+
+
+
+//ДЗ. Расширить инт, добавив метод isPositive и isNegative и метод, определяющий булево значение (если 0, то false, если любое другое положительное и отрицательно число - true)
+
+extension Int {
+    var isPositive: Bool {
+        return self > 0 ? true : false
+    }
+    var isNegative: Bool {
+        return self < 0 ? true : false
+    }
+    var boolValue: Bool {
+        return self > 0 || self < 0 ? true : false
+    }
+}
+
+let num = 34528
+num.isPositive
+num.isNegative
+num.boolValue
+let zero = 0
+zero.boolValue
+ 
+//2. Добавить метод, определяющий количество знаков в числе и сабскрипт, который выдаёт число из определённого разряда. Например [0] в 384 это 4, а [1] - 8
+
+extension Int {
+    var count: Int {
+        return String(self).count
+    }
+    subscript(radix: Int) -> Int? {
+        let a = String(String(self).reversed())
+        if a.count >= radix {
+            let b = a[a.index(a.startIndex, offsetBy: radix)]
+            return Int(String(b))
+        } else {
+            return nil
+        }
+//        return a.count <= radix ? Int(a[a.index(a.startIndex, offsetBy: radix)])! : nil
+//        return radix
+    }
+}
+
+num
+num.count
+
+num[0]
+
+//3. Переделать метод, который вырезает фрагмент строки, изменив синтаксис сабскрипта с запятой на диапазон
+
+extension String {
+    subscript(range: ClosedRange<Int>) -> String {
+        get {
+            let start = self.index(self.startIndex, offsetBy: range.lowerBound)
+            let end = self.index(self.startIndex, offsetBy: range.upperBound)
+            return String(self[start...end])
+        }
+        set {
+            let start = self.index(self.startIndex, offsetBy: range.lowerBound)
+            let end = self.index(self.startIndex, offsetBy: range.upperBound)
+            self.replaceSubrange(start...end, with: newValue)
+        }
+    }
+}
+s[0...4]
+
+var s2 = s
+s2[0...4] = "Hola"
+s2
+
+
+//4. Добавить сабскрипт, который принимает инт, определяющий количество символов, которые должны быть переданы из строки. Если инт меньше количества символов в строке, то вернуть сабстроку и многоточие, если инт равен или больше строки, то просто вернуть строку
+
+extension String {
+    subscript(index: Int) -> String {
+//        let result: String
+        if index >= self.count {
+        return self
+        } else if index < self.count {
+            let a = self.index(self.startIndex, offsetBy: index - 1)
+            return String(self[self.startIndex...a]) + "..."
+        }
+        return self
+    }
+}
+
+let w = s2.index(s2.startIndex, offsetBy: 4)
+s2[s2.startIndex...w]
+
+s2[5]
