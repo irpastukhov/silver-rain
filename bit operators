@@ -1,0 +1,193 @@
+extension UInt8 {
+    func binary() -> String {
+        var result = ""
+        for i in 0..<8 {
+            let mask = 1 << i
+            let set = Int(self) & mask != 0
+            result = (set ? "1" : "0") + result
+        }
+        return result
+    }
+}
+
+var a1: UInt8 = 57
+a1.binary()
+
+(5 as UInt8).binary()
+
+a1 = a1 + 0b111
+a1.binary()
+a1 = a1 - 0b1
+a1.binary()
+
+a1 = a1 << 1 // Оператор сдвигает битовое значение влево на один разряд и справа оставляет ноль
+a1.binary()
+a1 = a1 << 5
+a1.binary()
+a1 = a1 &* 2 //Амперсанд нужен, чтобы подтвердить, что возможно переполнение значения (поскольку 8 битовое число не может быть больше 255)
+a1.binary()
+
+var almZero: UInt8 = 0b11111111
+almZero = almZero &+ 1
+almZero.binary()
+almZero = almZero &- 1
+almZero.binary()
+
+
+extension Int8 {
+    func binary() -> String {
+        var result = ""
+        for i in 0..<8 {
+            let mask = 1 << i
+            let set = Int(self) & mask != 0
+            result = (set ? "1" : "0") + result
+        }
+        return result
+    }
+}
+
+var b1: Int8 = 0b01111111
+b1.binary()
+b1 = b1 &+ 1
+b1.binary()
+b1 = -1
+b1.binary()
+b1 = -5
+b1.binary()
+b1 = -128
+b1.binary()
+b1 = b1 &- 1
+b1.binary()
+
+b1 = 0b00100001
+b1 = b1 << 1
+b1.binary()
+b1 = b1 << 1
+b1.binary()
+
+var a: UInt8 = 0b00110011
+var b: UInt8 = 0b11100001
+
+a.binary()
+b.binary()
+(a | b).binary() //Побитовое сложение
+(a & b).binary() //Умножение
+(a ^ b).binary() //Сложение по модулю
+(~a).binary() //Инверсия
+
+//Операция, чтобы проверить, стоит ли 1 в 4 разряде у a
+b = 0b00001000
+a.binary()
+b.binary()
+(a & b).binary()
+(a ^ b).binary()
+
+enum CheckList: UInt8 {
+    case Bread =   0b00000001
+    case Chicken = 0b00000010
+    case Apples =  0b00000100
+    case Pears =   0b000001000
+}
+
+let letCheckList: UInt8 = 0b00001001
+let bread = letCheckList & CheckList.Bread.rawValue
+bread.binary()
+
+let chicken = letCheckList & CheckList.Chicken.rawValue
+chicken.binary()
+
+
+
+//ДЗ. Добавить в энум Чеклист метод, который позволяет установить, что продукт был куплен и метод, который позволяет прочитать эти данные
+
+print("""
+Homework
+
+""")
+
+extension CheckList {
+    func markTheProduct(list: inout UInt8) -> UInt8 {
+        switch self {
+        case .Chicken:
+            list = list | CheckList.Chicken.rawValue
+        case .Bread:
+            list = list | CheckList.Bread.rawValue
+        case .Apples:
+            list = list | CheckList.Apples.rawValue
+        case .Pears:
+            list = list | CheckList.Pears.rawValue
+        }
+        return list
+    }
+    
+    
+    func reatTheList(list: UInt8) -> String {
+        var caption = ""
+        switch self {
+        case .Bread:
+            if list & CheckList.Bread.rawValue == 1 {
+                        caption = "You have bread"
+                    } else {
+                        caption = "You don't have chicken"
+                    }
+        case .Chicken:
+            if list & CheckList.Chicken.rawValue == 2 {
+                        caption = "You have chicken"
+                    }  else {
+                        caption = "You don't have chicken"
+                    }
+        case .Apples:
+                    if list & CheckList.Apples.rawValue == 4 {
+                        caption = "You have apples"
+                    }  else {
+                        caption = "You don't have apples"
+                    }
+        case .Pears:
+                    if list & CheckList.Pears.rawValue == 8 {
+                        caption = "You have pears"
+                    }  else {
+                        caption = "You don't have pears"
+                    }
+        }
+        return caption
+    }
+}
+
+var myList: UInt8 = 0b0
+CheckList.Pears.markTheProduct(list: &myList)
+CheckList.Bread.markTheProduct(list: &myList)
+
+
+myList.binary()
+CheckList.Pears.reatTheList(list: myList)
+
+CheckList.Pears.reatTheList(list: myList)
+CheckList.Apples.reatTheList(list: myList)
+CheckList.Bread.reatTheList(list: myList)
+CheckList.Chicken.reatTheList(list: myList)
+
+
+//2. Сделать цикл, в котором 1 рисует синусоиду
+
+let arr: [UInt8] = [1, 2, 4, 8, 16, 32, 64, 128, 64, 32, 16, 8, 4, 2, 1]
+
+for _ in 1...4 {
+    for i in arr {
+        print(i.binary())
+    }
+}
+print("")
+
+//for i in 0...8 {
+//    let mask: UInt8 = 1 << i
+//    print(mask.binary())
+//    if i == 7 {
+//        let mask: UInt8 = 1 >> i
+//        print(mask.binary())
+//    }
+//}
+
+for i: UInt8 in 1...7 {
+    print((UInt8(1) << i).binary())
+}
+
