@@ -1,0 +1,194 @@
+//Нельзя перегружать '=' и тернарный оператор
+struct Point {
+    var x: Int
+    var y: Int
+}
+
+var p1 = Point(x: 2, y: 3)
+var p2 = Point(x: 3, y: 5)
+
+func + (a: Point, b: Point) -> Point {
+    return Point(x: a.x + b.x, y: a.y + b.y)
+}
+var p3 = p1 + p2
+
+func * (a: Point, b: Point) -> Point {
+    return Point(x: a.x * b.x, y: a.y * b.y)
+}
+var p4 = p1 * p2
+
+func += (a: inout Point, b: Point) {
+    a = a + b
+}
+p1 += p2
+
+func == (a: Point, b: Point) -> Bool {
+    return (a.x, a.y) == (b.x, b.y)
+}
+p1 == p2
+p1 == p1
+
+
+//Создание нового оператор
+infix operator %%%
+
+func %%% (a: inout Point, b: Point) -> Point {
+    a.x += b.y
+    a.y -= b.x
+    return a
+}
+p1
+p2
+p1 %%% p2
+
+
+//infix operator ** : associativity left precedencegroup 120 conjunctive LogicalConjunctionPrecedence
+//associativity left
+
+infix operator ** : LogicalConjunctionPrecedence
+
+func ** (a: Point, b: Point) -> Point {
+    return Point(x: 2 * (a.x + b.x), y: 2 * (a.y + b.y))
+}
+
+p1 = Point(x: 2, y: 3)
+p2 = Point(x: 3, y: 5)
+
+p1 ** p2
+
+
+import Foundation
+
+var s = "Hello, world!"
+
+func -= (s1: inout String, s2: String) {
+    let set = NSCharacterSet(charactersIn: s2)
+    let components: NSArray =
+    s1.components(separatedBy: set as CharacterSet) as NSArray
+    s1 = components.componentsJoined(by: "")
+}
+
+s -= "lo"
+
+func -= (s1: inout String, i: Int) {
+    s1 -= String(i)
+}
+
+s = "123456789"
+
+s -= 6789
+
+
+
+//ДЗ. Перегрузить операторы -, -=, /, /=, *, *=. (От себя: ) создать оператор инкремента.
+
+prefix operator ++
+
+prefix func ++ (n: inout Int) {
+    n += 1
+}
+
+var o = 123
+++o
+
+
+func - (a: Point, b: Point) -> Point {
+    return Point(x: a.x - b.x, y: a.y - b.y)
+}
+p1 = Point(x: 2, y: 3)
+p2 = Point(x: 3, y: 5)
+
+p1 - p2
+
+
+func -= (a: inout Point, b: Point) {
+    return a = a - b
+}
+p1 = Point(x: 2, y: 3)
+p2 = Point(x: 3, y: 5)
+
+p1 -= p2
+
+
+infix operator *=
+
+func *= (a: inout Point, b: Point) -> Point {
+    a = a * b
+    return a
+}
+
+p1 = Point(x: 2, y: 3)
+p2 = Point(x: 3, y: 5)
+
+p1 *= p2
+
+
+//2. Структура size с параметрами ширина и высота и структура прямоугольник с параметрами point и size. Перегрузить для прямоугольников операторы сложения и вычитания
+
+struct Size {
+    var width: Int
+    var height: Int
+}
+
+struct Rectangle {
+    var point: Point
+    var size: Size
+}
+
+var point1 = Point(x: 1, y: 1)
+var size1 = Size(width: 3, height: 2)
+var rect1 = Rectangle(point: point1, size: size1)
+var rect2 = Rectangle(point: Point(x: 3, y: 2), size: Size(width: 2, height: 2))
+
+
+func + (r1: Rectangle, r2: Rectangle) -> Rectangle {
+    let r3Point = (r1.point.x + r1.point.y) < (r2.point.x + r2.point.y) ? r1.point : r2.point
+    
+    let r3Size = Size(width: r1.size.width + r2.size.width, height: r1.size.height + r2.size.height)
+    return Rectangle(point: r3Point, size: r3Size)
+}
+
+var rect3 = rect1 + rect2
+
+
+//3.Перегрузить оператор + и += для String, где второй аргумент инт
+
+func + (s: String, n: Int) -> String {
+    return s + String(n)
+}
+
+var str1 = "my year of birth is "
+var str2 = str1 + 2001
+
+func += (s: inout String, n: Int) {
+    s = s + n
+}
+str1 = "my year of birth is "
+str1 += 2001
+
+
+//4. Создать свой оператор, ĸоторый принимает 2 строки и в первом аргументе, при совпадении буĸвы со вторым аргументом, меняет совпадения на заглавные буĸвы
+
+infix operator !!
+
+func !! (s1: inout String, s2: String) -> String{
+    var index = 0
+    for i in s1 {
+        for j in s2 {
+            if i == j {
+                s1.remove(at: s1.index(s1.startIndex, offsetBy: index))
+                s1.insert(Character(String(i).capitalized), at: s1.index(s1.startIndex, offsetBy: index))
+            }
+        }
+        index += 1
+    }
+    return s1
+}
+
+str1 = "abcdefg"
+str2 = "abc"
+var str3 = str1 !! str2
+
+var hjk = "иван пастухов"
+var hjk2 = "владимир путин"
+hjk !! hjk2
