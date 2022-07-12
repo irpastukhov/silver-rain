@@ -1,0 +1,274 @@
+protocol Priority {
+    var order: Int { get }
+}
+
+protocol EntryName: Priority {
+    var label: String { get }
+}
+
+
+class Student: EntryName {
+    var firstName: String
+    var lastName: String
+    var fullName: String {
+        return firstName + " " + lastName
+    }
+    init(firstName: String, lastName: String) {
+        self.firstName = firstName
+        self.lastName = lastName
+    }
+    var label: String {
+        return fullName
+    }
+    let order = 1
+}
+
+class Cow: EntryName {
+    var name: String?
+    var label: String {
+        return name ?? "a cow"
+    }
+    let order = 2
+}
+
+struct Grass: EntryName {
+    var type: String
+    var label: String {
+        return type
+    }
+    let order = 3
+}
+
+let student1 = Student(firstName: "Bob", lastName: "Shmob")
+let student2 = Student(firstName: "Bill", lastName: "Shmill")
+let student3 = Student(firstName: "Brian", lastName: "Shmian")
+
+let cow1 = Cow()
+cow1.name = "Buryonka"
+let cow2 = Cow()
+
+let grass1 = Grass(type: "Bermuda")
+let grass2 = Grass(type: "St. Augustine")
+
+
+var arr: [EntryName] = [cow1, student1, grass2, cow2, student3, grass1, student2]
+
+/*
+for value in arr {
+    if let grass = value as? Grass {
+        print(grass.type)
+    } else if let student = value as? Student {
+        print(student.fullName)
+    } else if let cow = value as? Cow {
+        print(cow.name ?? "a cow")
+    }
+    
+// Аналог через switch
+//    switch value {
+//    case let grass as Grass:
+//        print(grass.type)
+//    case let student as Student:
+//        print(student.fullName)
+//    case let cow as Cow:
+//        print(cow.name ?? "a cow")
+//    default:
+//        break
+//    }
+    
+}*/
+
+func printFarm(array: inout [EntryName]) {
+    
+    array.sort(by: { a, b in
+        if a.order == b.order {
+            return a.label.lowercased() < b.label.lowercased()
+        } else {
+            return a.order < b.order
+        }
+    })
+    
+    for value in array {
+        print(value.label)
+    }
+}
+
+printFarm(array: &arr)
+
+
+
+//Протокол Еда со свойством имя и методом вкус, которые печатает вкусовые ощущения. Создать массив с экземплярами-продуктами разных типов и вывести его с именем и методом
+
+print("""
+
+Homework
+
+""")
+
+protocol Food {
+    var name: String {get}
+    func taste()
+}
+
+protocol Storable {
+    var expired: Bool {get}
+    var daysToExpire: Int {get}
+}
+
+
+class Curd: Food, Storable {
+    var name: String
+    var expired: Bool
+    var daysToExpire: Int
+    func taste() {
+        print("sweet and sour", terminator: "")
+    }
+    init(name: String, expired: Bool, daysToExpire: Int) {
+        self.name = name
+        self.expired = expired
+        self.daysToExpire = daysToExpire
+    }
+}
+
+class Fruits: Food {
+    var name: String
+    func taste() {
+        print("unknown taste", terminator: "")
+    }
+    init(name: String) {
+        self.name = name
+    }
+}
+
+class Orange: Fruits, Storable {
+    override func taste() {
+        print("sour", terminator: "")
+    }
+    var expired: Bool
+    var daysToExpire: Int
+    init(name: String, expired: Bool, daysToExpire: Int) {
+        self.expired = expired
+        self.daysToExpire = daysToExpire
+        super.init(name: name)
+    }
+}
+
+struct Pepper: Food {
+    var name: String
+    func taste() {
+        let a = name == "chili" ? "spicy" : "sweet"
+        print(a, terminator: "")
+    }
+    init(name: String) {
+        self.name = name
+    }
+}
+ 
+struct Coffee: Food {
+    var name: String
+    func taste() {
+        print("bitter", terminator: "")
+    }
+    init(name: String) {
+        self.name = name
+    }
+}
+
+struct Eggs: Food, Storable {
+    var name: String
+    var expired: Bool
+    var daysToExpire: Int
+    func taste() {
+        print("tasty", terminator: "")
+    }
+}
+
+struct Milk: Food, Storable {
+    var name: String
+    var expired: Bool
+    var daysToExpire: Int
+    func taste() {
+        print("sweet", terminator: "")
+    }
+}
+
+let coffee1 = Coffee(name: "batch brew")
+let pepper1 = Pepper(name: "bell")
+let pepper2 = Pepper(name: "chili")
+let orange1 = Orange(name: "turkish", expired: false, daysToExpire: 10)
+let curd1 = Curd(name: "goat", expired: true, daysToExpire: 0)
+let eggs1 = Eggs(name: "c0", expired: false, daysToExpire: 10)
+let milk1 = Milk(name: "cow's", expired: true, daysToExpire: 0)
+let milk2 = Milk(name: "soy", expired: false, daysToExpire: 3)
+
+var bag: [Food] = [coffee1, pepper1, pepper2, orange1, curd1, eggs1, milk1, milk2]
+var bag2: [Food & Storable] = [orange1, curd1, eggs1, milk1, milk2]
+
+print("")
+func printFood(foods: [Food]) {
+    print("You have ", terminator: "")
+    var index = 0
+    for j in foods {
+        index += 1
+        if index == foods.count {
+            j.taste(); print(" \(j.name) \(type(of: j)) ")
+        } else if index == foods.count - 1 {
+            j.taste(); print(" \(j.name) \(type(of: j)) and ", terminator: "")
+        } else {
+            j.taste(); print(" \(j.name) \(type(of: j)), ", terminator: "")
+        }
+    }
+}
+print("1.")
+printFood(foods: bag)
+
+//2. Протокол Storable, который наследуюется от Food и имеет булево свойство expired. Изменить у некоторых продуктов протокол и ещё раз пройтись по массиву, добавив не испорченные Storable продукты в массив fridge, а испорченные удалить из первого массива.
+print("""
+
+2.
+""")
+func moveToTheFridge(foods: inout [Food]) -> [Food & Storable] {
+    var fridge = [Food & Storable]()
+    var index = 0
+    for i in foods {
+        if let stor = i as? Food & Storable {
+            if !stor.expired {
+                fridge += [stor]
+            } else {
+                foods.remove(at: index)
+                index -= 1
+            }
+        }
+        index += 1
+    }
+    return fridge
+}
+
+var fridge = moveToTheFridge(foods: &bag)
+
+printFood(foods: fridge)
+print("")
+printFood(foods: bag)
+
+
+//3. Добавить в Storable свойство daysToExpire. Отсортировать массив fridge так, чтобы сначала шло то, что быстрее испортится, если срок одинаковый, то сортировка по имени
+print("""
+
+3.
+""")
+func checkTheDate(foods: inout [Food & Storable]) {
+    
+    foods.sort(by: { a, b in
+        if a.daysToExpire == b.daysToExpire {
+            return a.name.lowercased() < b.name.lowercased()
+        } else {
+            return a.daysToExpire < b.daysToExpire
+        }
+    })
+    
+    for i in foods {
+        print("\(i.name) \(type(of: i)) - \(i.daysToExpire) days to expire ")
+    }
+    
+}
+fridge
+checkTheDate(foods: &fridge)
